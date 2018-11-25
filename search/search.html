@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="searchstyle.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <h1>Search</h1>
+    <input id='s' type='search'>
+    <input type="button" id="search" value="submit">
+  
+</body>
+<script>
+  const client_id = "1a5afd0975169dac1e83";
+const client_secret="a165dbd28f3c7dd3d4be06ef998a465319ff90c6";
+const fetchUsers =async (user)=>{
+  const api_call = await fetch(`https://api.github.com/users/${user}?client_id=${client_id}&client_secret=${client_secret}`);
+
+  const data = await api_call.json();
+  return {data}
+};
+const showData = ()=>{
+  fetchUsers(inputValue.value).then((res)=>{
+    let followers;
+    let repos;
+    repos = res.data.public_repos
+    followers = res.data.followers;
+    console.log(`Nos of Repos: ${repos}`);
+    console.log(`Nos of Followers: ${followers}`);
+    
+  })
+};
+
+  const inputValue = document.querySelector("#s");
+   document.getElementById("search").onclick = ()=>{
+      showData();
+
+   }
+
+</script>
+</html>
