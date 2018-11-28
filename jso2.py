@@ -34,3 +34,4 @@ for name in usernames:
     data[name]=amazon_pricer(link)
 
 print(data)
+#https://github.com/users/DumbMachine/contributions?to=2018-11-31
