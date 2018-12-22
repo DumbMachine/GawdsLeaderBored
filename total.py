@@ -150,3 +150,16 @@ def person_plot(username,NoHtml = False):
         plt_html_line(data)
 
 person_plot("DumbMachine")
+
+
+#HeatMap
+x = np.random.randn(88)
+y = np.random.randn(88)
+
+heatmap, xedges, yedges = np.histogram2d(x, y, bins=50)
+extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+
+plt.clf()
+plt.imshow(heatmap.T, extent=extent, origin='lower')
+plt.show()
+
