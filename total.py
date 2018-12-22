@@ -163,3 +163,28 @@ plt.clf()
 plt.imshow(heatmap.T, extent=extent, origin='lower')
 plt.show()
 
+def weekly_data(username):
+    url = "https://github.com/users/placeholder/contributions?to={}".replace("placeholder",username)
+    total = 0
+    weekly_data = []
+    new = []
+    newnew= []
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'}
+    for day in datespan(date(2018, 1, 1), date(2018, 12, 31),delta=timedelta(days=7)):
+        time.sleep(1)
+        res = requests.get(url.format(str(day)),headers=headers)
+        soup = BeautifulSoup(res.text,'lxml')
+        selector = "body > div.js-yearly-contributions > div:nth-child(1) > h2"
+        selector = selector.replace("nth-child","nth-of-type")
+        content = soup.select(selector)
+        contri = str(content[0])
+        contributions = contri[contri.find(">")+2:contri.rfind("<")-1].split()[0]
+        total+= int(contributions)
+        weekly_data.append(total)
+        print(len(weekly_data))
+    for i in range(len(weekly_data)-1):
+        new.append(weekly_data[i+1]-weekly_data[i])
+    for i in range(len(new)-1):
+        newnew.append(new[i+1]-new[i])
+    return newnew
+
