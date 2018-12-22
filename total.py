@@ -21,7 +21,7 @@ members = {
         "avinashbharti97",
         "aakash947",
         "anushka5sep",
-        "EUNIX-TRIX",
+        "tourist314159",
         "m0nk3ydluffy",
         "shivi98g"
     ],
@@ -40,7 +40,8 @@ import requests
 import json
 from pymongo import MongoClient
 import matplotlib.pyplot as plt, mpld3
-import pandas
+import pandas as pd
+import random 
 
 url = "https://github.com/users/DumbMachine/contributions?to=2018-11-31"
 headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'}
@@ -80,9 +81,11 @@ def fun(members):
             # html_file = open("tile.html","w")
             # html_file.write(grap)
             # html_file.close()
+            print(member)
             user_objecty["contributions"]= contributions
             user_objecty["graph"] = grap
             user_objecty["year"] = year
+            user_objecty["weekly_arr"] = [random.randint(1,20) for _ in range(52)]
             mongo_pusher(user_objecty)
     
 fun(members)
@@ -120,15 +123,6 @@ def plt_html_line(data):
     #mpld3.fig_to_html(fig,template_type="simple")
     plt.show()
 
-    
-csv=[]
-bills_post = posts.find({"year" : "FirstYear"})
-for item in bills_post:
-    name = item["login"]
-    contri = item["contributions"]
-    csv.append({"name":name , "contri": contri})
-
-pd.DataFrame(csv).to_csv('out1.csv', index=False)
 
 def year_csv():
     years = ["FirstYear","SecondYear","ThirdYear"]
@@ -145,3 +139,14 @@ def year_csv():
             csv.append({"name":name , "contri": contri})
         pd.DataFrame(csv).to_csv('{}.csv'.format(year), index=False)
         
+def person_plot(username,NoHtml = False):
+    client = MongoClient()
+    client = MongoClient('localhost', 27017)
+    db = client.test
+    posts = db.posts
+    query = posts.find({"login":username})
+    for item in query:
+        data = item["weekly_arr"]
+        plt_html_line(data)
+
+person_plot("DumbMachine")
