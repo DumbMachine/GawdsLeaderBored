@@ -78,6 +78,7 @@ def fun(members):
             contri = str(content[0])
             contributions = contri[contri.find(">")+2:contri.rfind("<")-1].split()[0]
             grap=str(graph[0])
+            grap = grap.replace(grap[grap.find("<text"):grap.rfind("</svg>")],"")
             # html_file = open("tile.html","w")
             # html_file.write(grap)
             # html_file.close()
